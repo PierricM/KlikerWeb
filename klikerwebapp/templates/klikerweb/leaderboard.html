@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" type="text/css" href="/static/klikerweb/leaderboard_styles.css">
+</head>
+<body>
+<p style="color: white; text-align: center">LEADERBOARD</p>
+<div class="mondiv">
+{{ df|safe }}
+    </div>
+</body>
+</html>
+
+<style>
+    body {
+  background-color: black;
+}
+
+.mondiv {
+  margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+}
+</style>
+
+

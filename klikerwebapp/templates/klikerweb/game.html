@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kliker</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+var clicks = 0;
+var timer = 10;
+
+    $(document).ready(function(){
+  $("button").click(function(){
+          clicks += 1;
+          $("button").html(clicks);
+        console.log( clicks );
+    $.ajax({
+    type: "GET",
+    url: "{% url 'game' pseudo="pierric" %}",
+    data: {
+        "count": clicks,
+    },
+    success: function(data){
+        console.log("success");
+        console.log(data);
+    },
+    failure: function(data){
+        console.log("failure");
+        console.log(data);
+    },
+});
+  });
+});
+
+
+function refresh() {
+if (timer=="0"){
+          var txt;
+          var person="";
+var n = 0;
+var iscorrect = true;
+var msg = "Please enter your pseudo:";
+   do {
+   iscorrect=true;
+    n++;
+    if(n > 1) msg = "You had too many characters! \nPlease enter your data 1(Maximum limit 15).";
+    person = prompt(msg, "Harry Potter");
+    if (person == null || person.length > 15 || person == "") iscorrect = false;
+  $.ajax({
+        url: "{% url 'validate' %}",
+        data: {
+          'username': person
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) iscorrect=false
+        },
+    failure: function(data){
+         if (data.is_taken) iscorrect=false
+    },
+      async: false })
+  } while (iscorrect == false);
+        $.ajax({
+    type: "GET",
+    url: "{% url 'game' pseudo="pierric" %}",
+    data: {
+        "person": person,'count':clicks, 'timer':timer
+    },
+    success: function(data){
+        console.log("success");
+        console.log(data);
+        if (timer=="0"){
+
+        }
+    },
+    failure: function(data){
+        console.log("failure");
+        console.log(data);
+    },
+});
+window.location.href = "/klikerwebapp/pierric/leaderboard";}
+else{
+    $.ajax({
+        url: "{% url 'game' pseudo="pierric" %}",
+        success: function(data) {
+            $('#test').html(data);
+            setTimeout(refresh, 1000);
+            timer = timer-1;
+            console.log(timer);
+        }
+    });
+        $.ajax({
+    type: "GET",
+    url: "{% url 'game' pseudo="pierric" %}",
+    data: {
+        "count": clicks,'timer':timer
+    },
+    success: function(data){
+        console.log("success");
+        console.log(data);
+        if (timer=="0"){
+
+        }
+    },
+    failure: function(data){
+        console.log("failure");
+        console.log(data);
+    },
+});}
+}
+
+$(function(){
+    refresh();
+});
+
+
+function func1() {
+  clicks = 0;
+  timer=10;
+}
+window.onload=func1;
+window.addEventListener( "pageshow", function ( event ) {
+  var historyTraversal = event.persisted ||
+                         ( typeof window.performance != "undefined" &&
+                              window.performance.navigation.type === 2 );
+  if ( historyTraversal ) {
+    // Handle page restore.
+    window.location.reload();
+  }
+});
+  </script>
+</head>
+<body>
+<p style="color: white">Click on the dot!</p>
+<a href="/klikerwebapp/pierric/leaderboard">Leaderboard</a>
+
+
+   <script type="text/javascript">
+    var URL = "{% url 'game' pseudo="pierric" %}"
+    var clicks = 0;
+    function onClick() {
+        clicks += 1;
+        console.log( clicks );
+        document.getElementById("clicks").innerHTML = clicks;
+        var data = {'count': '5'};
+            post(URL, data);
+    };
+
+
+    </script>
+<div class="wrapper">
+    <button type="button" class="button">Click me</button>
+</div>
+    <p style="color: white">Clicks: <a id="clicks">0</a></p>
+</body>
+</html>
+<script>
+
+    $.ajax({
+    type: "GET",
+    url: "{% url 'game' pseudo="pierric" %}",
+    data: {
+        "count": 5,
+    },
+    success: function(data){
+        console.log("success");
+        console.log(data);
+    },
+    failure: function(data){
+        console.log("failure");
+        console.log(data);
+    },
+});
+</script>
+
+<style>
+    body {
+  background-color: black;
+}
+
+.wrapper {
+    text-align: center;
+}
+
+.button {
+    background-color: white;
+    text-align: center;
+    font-size: 100px;
+    padding: 100px 100px;
+    border-radius: 50%;
+     min-height: 500px;
+      min-width: 500px;
+}
+</style>
+
