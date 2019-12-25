@@ -1,1 +1,1 @@
-web: gunicorn klikerwebapp.wsgi --log-file -
+web: gunicorn klikerweb.wsgi --log-file -
