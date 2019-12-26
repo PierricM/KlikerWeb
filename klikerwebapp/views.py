@@ -5,7 +5,7 @@ import datetime as dt
 import pandas as pd
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return render(request, 'klikerweb/game.html', {})
 
 
 def main_game(request, pseudo):
